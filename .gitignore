@@ -6,7 +6,8 @@ build/
 *.lo
 *.o
 *.obj
-
+test.txt
+aut.l
 # Precompiled Headers
 *.gch
 *.pch
