@@ -1,7 +1,7 @@
 #include "Lexer.hpp"
 #include <fstream>
 #include <iostream>
-
+#include "PrintTokens.hpp"
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Missing argument\n";
@@ -16,22 +16,6 @@ int main(int argc, char* argv[]) {
 
     Lexer lexer(in);
     Token tok;
-
-    while ((tok = lexer.nextToken()) != Token::END_OF_FILE) {
-        std::cout << "Token: ";
-        switch (tok) {
-            case Token::NUMBER:
-                std::cout << "NUMBER(" << lexer.getText() << ")";
-                break;
-            case Token::IDENTIFIER:
-                std::cout << "IDENTIFIER(" << lexer.getText() << ")";
-                break;
-            default:
-                break;
-        }
-        std::cout << '\n';
-    }
-
-    std::cout << "End of file.\n";
+    PrintTokens(lexer,tok);
     return 0;
 }
