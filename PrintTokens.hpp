@@ -6,88 +6,88 @@ void PrintTokens(Lexer& lexer,Token tok){
         std::cout << "Token: ";
         switch (tok) {
             case Token::NUMBER:
-                std::cout << "NUMBER(" << lexer.getText() << ")";
+                std::cout << "NUMBER("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::AND_OPERATOR:
-            std::cout << "AND OPERATOR(" << lexer.getText() << ")";
+            std::cout << "AND OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::ASSIGN_OPERATOR:
-            std::cout << "ASSIGN OPERATOR(" << lexer.getText() << ")";
+            std::cout << "ASSIGN OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::COMA:
-            std::cout << "COMA(" << lexer.getText() << ")";
+            std::cout << "COMA("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::DIVISION_OPERATOR:
-            std::cout << "DIVISION OPERATOR(" << lexer.getText() << ")";
+            std::cout << "DIVISION OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::EQUAL_OPERATOR:
-            std::cout << "EQUAL OPERATOR(" << lexer.getText() << ")";
+            std::cout << "EQUAL OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::GREATER_EQUAL_OPERATOR:
-             std::cout << "GREATER_EQUAL OPERATOR(" << lexer.getText() << ")";
+             std::cout << "GREATER_EQUAL OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::GREATER_OPERATOR:
-             std::cout << "GREATER OPERATOR(" << lexer.getText() << ")";
+             std::cout << "GREATER OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::IDENTIFIER:
-             std::cout << "IDENTIFIER(" << lexer.getText() << ")";
+             std::cout << "IDENTIFIER("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::Keyword_else:
-             std::cout << "KEYWORD_ELSE(" << lexer.getText() << ")";
+             std::cout << "KEYWORD_ELSE("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::Keyword_if:
-             std::cout << "KEYWORD_IF(" << lexer.getText() << ")";
+             std::cout << "KEYWORD_IF("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::Keyword_int:
-             std::cout << "KEYWORD_INT(" << lexer.getText() << ")";
+             std::cout << "KEYWORD_INT("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::Keyword_print:
-             std::cout << "KEYWORD PRINT(" << lexer.getText() << ")";
+             std::cout << "KEYWORD PRINT("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::Keyword_while:
-             std::cout << "KEYRWORD WHILE(" << lexer.getText() << ")";
+             std::cout << "KEYRWORD WHILE("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::LEFT_KEY:
-             std::cout << "LEFT KEY(" << lexer.getText() << ")";
+             std::cout << "LEFT KEY("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::LEFT_PAR:
-             std::cout << "LEFT PARENTHESIS(" << lexer.getText() << ")";
+             std::cout << "LEFT PARENTHESIS("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::LESS_EQUAL_OPERATOR:
-             std::cout << "LESS EQUAL OPERATOR(" << lexer.getText() << ")";
+             std::cout << "LESS EQUAL OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::LESS_OPERATOR:
-             std::cout << "LESS THAN OPERATOR(" << lexer.getText() << ")";
+             std::cout << "LESS THAN OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::MODULE_OPERATOR:
-             std::cout << "MODULE OPERATOR(" << lexer.getText() << ")";
+             std::cout << "MODULE OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::MULTIPLICATION_OPERATOR:
-             std::cout << "MULTIPLICATION OPERATOR(" << lexer.getText() << ")";
+             std::cout << "MULTIPLICATION OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::NOT_OPERATOR:
-                std::cout << "NOT OPERATOR(" << lexer.getText() << ")";
+                std::cout << "NOT OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::NOT_EQUAL_OPERATOR:
-                std::cout << "NOT EQUAL OPERATOR(" << lexer.getText() << ")";
+                std::cout << "NOT EQUAL OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::OR_OPERATOR:
-             std::cout << "OR OPERATOR(" << lexer.getText() << ")";
+             std::cout << "OR OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::RIGHT_KEY:
-            std::cout << "RIGHT KEY(" << lexer.getText() << ")";
+            std::cout << "RIGHT KEY("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::RIGHT_PAR:
-            std::cout << "RIGHT PARENTHESIS(" << lexer.getText() << ")";
+            std::cout << "RIGHT PARENTHESIS("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::SEMICOLON:
-            std::cout << "SEMICOLON(" << lexer.getText() << ")";
+            std::cout << "SEMICOLON("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::SUBTRACTION_OPERATOR:
-            std::cout << "SUBTRACTION_OPERATOR(" << lexer.getText() << ")";
+            std::cout << "SUBTRACTION_OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
             case Token::SUM_OPERATOR:
-            std::cout << "SUM OPERATOR(" << lexer.getText() << ")";
+            std::cout << "SUM OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
 
             case Token::ERROR:

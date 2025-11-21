@@ -1,39 +1,40 @@
 #include "Lexer.hpp"
 #include <iostream>
+#include <stdexcept>
 enum class State
 {
     Q0,
     NUMBER_Q1,
-    IDENTIFIER_Q2, 
-    ESPACIO_Q3, 
-    NOT_EQUAL_Q8, 
-    AND_Q9, 
-    LESS_EQUAL_Q10, 
-    GREATER_EQUAL_Q11, 
-    MULTIPLICATION_Q12,
+    IDENTIFIER_Q1,
+    ESPACIO_Q1,
+    NOT_EQUAL_Q1, 
+    AND_Q1, 
+    LESS_EQUAL_Q1, 
+    GREATER_EQUAL_Q1, 
+    MULTIPLICATION_Q1,
     DIVISION_Q1, 
-    SUBTRACTION_Q14, 
-    SUM_Q15,
-    MODULE_Q17, 
-    NOT__Q18, 
-    LESS__Q19,
-    GREATER_Q20, 
-    OR_Q21, 
-    ASSIGN_Q22, 
-    SEMICOLON_Q23, 
-    COMA_Q24,
-    AND_Q25, 
+    SUBTRACTION_Q1, 
+    SUM_Q1,
+    MODULE_Q1, 
+    NOT__Q1, 
+    LESS__Q1,
+    GREATER_Q1, 
+    OR_Q1, 
+    ASSIGN_Q1, 
+    SEMICOLON_Q1, 
+    COMA_Q1,
     LEFT_PAR_Q1,
-    RIGHT_PAR_Q26, 
-    LEFT_KEY_Q27, 
-    RIGHT_KEY_Q28,
+    RIGHT_PAR_Q1, 
+    LEFT_KEY_Q1, 
+    RIGHT_KEY_Q1,
     COMMENT_Q1, 
-    COMMENT_Q30, 
-    END_OF_FILE 
+    END_OF_FILE,
+    ERROR
 };
 
 Token Lexer::nextToken()
 {
+    int i=1;
     text.clear();
     State state = State::Q0;
     while (true)
@@ -44,26 +45,27 @@ Token Lexer::nextToken()
             if (currentChar == EOF)
                 state = State::END_OF_FILE;
             else if(isspace(currentChar)){
+                if(currentChar=='\n'){i++;}
                 currentChar = in.get(); 
-                state = State::ESPACIO_Q3;
+                state = State::ESPACIO_Q1;
             }
             else if (currentChar=='+')
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::SUM_Q15;
+                state = State::SUM_Q1;
             }
             else if (currentChar=='*')
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::MULTIPLICATION_Q12;
+                state = State::MULTIPLICATION_Q1;
             }
             else if (currentChar=='%')
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::MODULE_Q17;
+                state = State::MODULE_Q1;
             }
             else if (currentChar=='(')
             {
@@ -75,25 +77,25 @@ Token Lexer::nextToken()
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::RIGHT_PAR_Q26;
+                state = State::RIGHT_PAR_Q1;
             }
             else if (currentChar=='{')
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::LEFT_KEY_Q27;
+                state = State::LEFT_KEY_Q1;
             }
             else if (currentChar=='}')
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::RIGHT_KEY_Q28;
+                state = State::RIGHT_KEY_Q1;
             }
             else if (currentChar=='-')
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::SUBTRACTION_Q14;
+                state = State::SUBTRACTION_Q1;
             }
             else if (currentChar=='/')
             {
@@ -105,7 +107,43 @@ Token Lexer::nextToken()
             {
                 text += static_cast<char>(currentChar);
                 currentChar = in.get();
-                state = State::NOT__Q18;
+                state = State::NOT__Q1;
+            }
+            else if (currentChar==';')
+            {
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::SEMICOLON_Q1;
+            }
+            else if (currentChar=='&')
+            {
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::AND_Q1;
+            }
+            else if (currentChar=='<')
+            {
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::LESS__Q1;
+            }
+            else if (currentChar=='|')
+            {
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::OR_Q1;
+            }
+            else if (currentChar=='=')
+            {
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::ASSIGN_Q1;
+            }
+            else if (currentChar=='>')
+            {
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::GREATER_Q1;
             }
             else if (isdigit(currentChar))
             {
@@ -113,8 +151,15 @@ Token Lexer::nextToken()
                 currentChar = in.get();
                 state = State::NUMBER_Q1;
             }
-            else if(currentChar>'A'){
-                
+            else if((currentChar>='a'&&currentChar<='z')||(currentChar>='A'&&currentChar<='Z')||
+                    currentChar=='_'){
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::IDENTIFIER_Q1;
+            }
+            else{
+                state=State::ERROR;
+                text += static_cast<char>(currentChar);
             }
             break;
         case State::NUMBER_Q1:
@@ -127,31 +172,54 @@ Token Lexer::nextToken()
             text += currentChar;
             currentChar = in.get();
         break;
-        case State::IDENTIFIER_Q2:
-
+        case State::IDENTIFIER_Q1:
+        if((currentChar>='a'&&currentChar<='z')||(currentChar>='A'&&currentChar<='Z')||
+                currentChar=='_'||isdigit(currentChar)){
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+            }else{
+                if(text=="int"){return Token::Keyword_int;}
+                if(text=="if"){return Token::Keyword_if;}
+                if(text=="else"){return Token::Keyword_else;}
+                if(text=="while"){return Token::Keyword_while;}
+                if(text=="print"){return Token::Keyword_print;}
+                state=State::Q0;
+                return Token::IDENTIFIER;
+            }
         break;
-        case State::ESPACIO_Q3:
+        case State::ESPACIO_Q1:
         if(isspace(currentChar)){
             currentChar=in.get();
         }else{
             state=State::Q0;
         }
         break;
-        case State::NOT_EQUAL_Q8:
+        case State::NOT_EQUAL_Q1:
         currentChar = in.get();
         state=State::Q0;
         return Token::NOT_EQUAL_OPERATOR;
         break;
-        case State::AND_Q9:
-
+        case State::AND_Q1:
+        if(currentChar=='&'){
+            text += static_cast<char>(currentChar);
+            currentChar = in.get();
+            state = State::Q0;
+            return Token::AND_OPERATOR;
+        }else{
+            state=State::ERROR;
+        }
         break;
-        case State::LESS_EQUAL_Q10:
-
+        case State::LESS_EQUAL_Q1:
+        currentChar = in.get();
+        state=State::Q0;
+        return Token::LESS_EQUAL_OPERATOR;
         break;
-        case State::GREATER_EQUAL_Q11:
-
+        case State::GREATER_EQUAL_Q1:
+        currentChar = in.get();
+        state=State::Q0;
+        return Token::GREATER_EQUAL_OPERATOR;
         break;
-        case State::MULTIPLICATION_Q12:
+        case State::MULTIPLICATION_Q1:
         state=State::Q0;
         return Token::MULTIPLICATION_OPERATOR;
         break;
@@ -165,7 +233,7 @@ Token Lexer::nextToken()
             return Token::DIVISION_OPERATOR;
         }
         break;
-        case State::SUBTRACTION_Q14:
+        case State::SUBTRACTION_Q1:
         if(isdigit(currentChar)){
             text += currentChar;
             currentChar=in.get();
@@ -174,64 +242,113 @@ Token Lexer::nextToken()
             state=State::Q0;
             return Token::SUBTRACTION_OPERATOR;
         }
-        break; 
-        case State::SUM_Q15:
+        break;
+        case State::SUM_Q1:
         state=State::Q0;
         return Token::SUM_OPERATOR;
         break;
-        case State::MODULE_Q17:
+        case State::MODULE_Q1:
         state=State::Q0;
         return Token::MODULE_OPERATOR;
         break;
-        case State::NOT__Q18:
+        case State::NOT__Q1:
         if(currentChar == '='){
         text += static_cast<char>(currentChar); 
-        state = State::NOT_EQUAL_Q8;
+        state = State::NOT_EQUAL_Q1;
     } else {
         state = State::Q0;
         return Token::NOT_OPERATOR;
     }
         break; 
-        case State::LESS__Q19:
+        case State::LESS__Q1:
+        if(currentChar=='='){
+            text += static_cast<char>(currentChar); 
+            state = State::LESS_EQUAL_Q1;
+        }else{
+            state=State::Q0;
+            return Token::LESS_OPERATOR;
+        }
 
         break;
-        case State::GREATER_Q20:
-
+        case State::GREATER_Q1:
+        if(currentChar=='='){
+            text += static_cast<char>(currentChar); 
+            state = State::GREATER_EQUAL_Q1;
+        }
+        else{
+            state=State::Q0;
+            return Token::GREATER_OPERATOR;
+        }
         break; 
-        case State::OR_Q21:
-
+        case State::OR_Q1:
+        if(currentChar=='|'){
+            text += static_cast<char>(currentChar);
+            currentChar = in.get();
+            state = State::Q0;
+            return Token::OR_OPERATOR;
+        }else{
+            state=State::ERROR;
+        }
         break; 
-        case State::ASSIGN_Q22:
+        case State::ASSIGN_Q1:
+        if(currentChar=='='){
+            text += static_cast<char>(currentChar);
+            currentChar = in.get();
+            state = State::Q0;
+            return Token::EQUAL_OPERATOR;
+        }else{
+            state=State::Q0;
+            return Token::ASSIGN_OPERATOR;
+        }
         break; 
-    case State::SEMICOLON_Q23:
+    case State::SEMICOLON_Q1:
+     state=State::Q0;
+    return Token::SEMICOLON;
     break; 
-    case State::COMA_Q24:
+    case State::COMA_Q1:
+     state=State::Q0;
+    return Token::COMA;
     break;
-    case State::AND_Q25: 
+    case State::LEFT_PAR_Q1:
+
+    state=State::Q0;
+    return Token::LEFT_PAR;
     break;
-    case State::RIGHT_PAR_Q26: 
+    case State::RIGHT_PAR_Q1: 
+
+     state=State::Q0;
+    return Token::RIGHT_PAR;
     break;
-    case State::LEFT_KEY_Q27: 
+    case State::LEFT_KEY_Q1: 
+
+     state=State::Q0;
+    return Token::LEFT_KEY;
     break;
-    case State::RIGHT_KEY_Q28:
+    case State::RIGHT_KEY_Q1:
+
+     state=State::Q0;
+    return Token::RIGHT_KEY;
     break;
-    case State::COMMENT_Q1: 
+    case State::COMMENT_Q1:
     if (currentChar == '\n' || currentChar == '\r'){
         currentChar=in.get();
         state=State::Q0;
     }
+    else if(currentChar==EOF){
+        state=State::END_OF_FILE;
+    }
     else{
-        std::cout<<"siguiente: "<<static_cast<char>(currentChar)<<"Text: "<<text<<std::endl;
         currentChar=in.get();
     }
     break;
-    case State::COMMENT_Q30:
-    break; 
         case State::END_OF_FILE:
             return Token::END_OF_FILE;
             break;
-        default:
-        return Token::ERROR;
+        case State::ERROR:
+        std::string error_msg = "Error léxico: Lexema inválido '";
+        error_msg += text;
+        error_msg += "' encontrado.";
+        throw std::runtime_error(error_msg);
         break;
         }
     };
