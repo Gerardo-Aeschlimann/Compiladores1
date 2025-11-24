@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "PrintTokens.hpp"
+#include "Parser.hpp"
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Missing argument\n";
@@ -16,6 +17,8 @@ int main(int argc, char* argv[]) {
 
     Lexer lexer(in);
     Token tok;
-    PrintTokens(lexer,tok);
+    Parser parser(lexer,tok);
+    parser.Parse();
+    //PrintTokens(lexer,tok);
     return 0;
 }
