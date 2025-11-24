@@ -99,6 +99,7 @@ void Parser::ifStmt(){
         if(currentToken==Token::RIGHT_PAR){
             currentToken=lexer.nextToken();
             statement();
+            currentToken=lexer.nextToken();
             if(currentToken==Token::Keyword_else){
                 currentToken=lexer.nextToken();
                 statement();
@@ -151,10 +152,15 @@ void Parser::printStmt(){
     }
 }
 void Parser::block(){
-    currentToken=lexer.nextToken();
-    while (currentToken != Token::RIGHT_KEY && currentToken != Token::END_OF_FILE) {
+    bool a=true;
+    while (a) {
         currentToken=lexer.nextToken();
-        statement();
+        if(currentToken != Token::RIGHT_KEY && currentToken != Token::END_OF_FILE){
+            statement();
+        }else{
+            a=false;
+        }
+        
     }
     if (currentToken == Token::RIGHT_KEY) {
     } else if (currentToken == Token::END_OF_FILE) {
