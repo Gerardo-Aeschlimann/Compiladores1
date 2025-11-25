@@ -29,7 +29,12 @@ enum class State
     RIGHT_KEY_Q1,
     COMMENT_Q1, 
     END_OF_FILE,
-    ERROR
+    ERROR,
+    BRACKET_INDENT_Q1,
+    BRACKET_INDENT_Q2,
+    COMMENTBLOC_Q1,
+    COMMENTBLOC_Q2,
+    COMMENTBLOC_Q3
 };
 
 Token Lexer::nextToken()
@@ -157,6 +162,12 @@ Token Lexer::nextToken()
                 currentChar = in.get();
                 state = State::IDENTIFIER_Q1;
             }
+            else if (currentChar=='[')
+            {
+                text += static_cast<char>(currentChar);
+                currentChar = in.get();
+                state = State::BRACKET_INDENT_Q1;
+            }
             else{
                 state=State::ERROR;
                 text += static_cast<char>(currentChar);
@@ -228,7 +239,12 @@ Token Lexer::nextToken()
             text.clear();
             currentChar=in.get();
             state=State::COMMENT_Q1;
-        }else{
+        }else if(currentChar=='*'){
+            text.clear();
+            currentChar=in.get();
+            state=State::COMMENTBLOC_Q1;
+        }
+        else{
             state=State::Q0;
             return Token::DIVISION_OPERATOR;
         }
@@ -269,6 +285,34 @@ Token Lexer::nextToken()
             return Token::LESS_OPERATOR;
         }
 
+        break;
+        case State::COMMENTBLOC_Q1:
+        if (currentChar == '*'){
+            currentChar=in.get();
+            state=State::COMMENTBLOC_Q2;
+            }
+            else if(currentChar==EOF){
+        state=State::END_OF_FILE;
+            }
+        else{
+        currentChar=in.get();
+        }
+        break;
+        case State::COMMENTBLOC_Q2:
+        if (currentChar == '/'){
+            currentChar=in.get();
+            state=State::COMMENTBLOC_Q3;
+            }
+            else if(currentChar==EOF){
+        state=State::END_OF_FILE;
+            }
+        else{
+        currentChar=in.get();
+        }
+        break;
+        case State::COMMENTBLOC_Q3:
+        currentChar=in.get();
+        state=State::Q0;
         break;
         case State::GREATER_Q1:
         if(currentChar=='='){
@@ -340,6 +384,22 @@ Token Lexer::nextToken()
     else{
         currentChar=in.get();
     }
+    break;
+    case State::BRACKET_INDENT_Q1:
+    if(currentChar==']'){
+        text+=static_cast<char>(currentChar);
+        currentChar=in.get();
+        state=State::BRACKET_INDENT_Q2;
+    }else if(currentChar==EOF||currentChar=='\n'){
+        state=State::ERROR;
+    }else{
+        text+=static_cast<char>(currentChar);
+        currentChar=in.get();
+    }
+    break;
+    case State::BRACKET_INDENT_Q2:
+        state=State::Q0;
+        return Token::BRACKET_IDENT;
     break;
         case State::END_OF_FILE:
             return Token::END_OF_FILE;

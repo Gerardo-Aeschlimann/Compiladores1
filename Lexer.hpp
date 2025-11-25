@@ -31,6 +31,7 @@ enum class Token {
     RIGHT_PAR,
     LEFT_KEY,
     RIGHT_KEY,
+    BRACKET_IDENT,
     END_OF_FILE,
     ERROR
 };

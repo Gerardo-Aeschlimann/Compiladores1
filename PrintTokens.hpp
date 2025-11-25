@@ -89,6 +89,9 @@ void PrintTokens(Lexer& lexer,Token tok){
             case Token::SUM_OPERATOR:
             std::cout << "SUM OPERATOR("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
                 break;
+            case Token::BRACKET_IDENT:
+            std::cout << "BRACKET IDENT("<<static_cast<char>(39) << lexer.getText()<<static_cast<char>(39) << ")";
+                break;
 
             case Token::ERROR:
             std::cerr<<"CARACTER INVALIDO";

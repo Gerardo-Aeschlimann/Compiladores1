@@ -1,9 +1,4 @@
 %%
-int     { return Token::Keyword_int; }
-if      { return Token::Keyword_if; }
-else    { return Token::Keyword_else; }
-while   { return Token::Keyword_while; }
-print   { return Token::Keyword_print; }
 [a-zA-Z_][a-zA-Z0-9_]* { return Token::IDENTIFIER; }
 -?[0-9]+ { return Token::NUMBER; }
 ==           { return Token::EQUAL_OPERATOR; }
@@ -27,6 +22,8 @@ print   { return Token::Keyword_print; }
 \)           { return Token::RIGHT_PAR; }
 \{           { return Token::LEFT_KEY; }
 \}           { return Token::RIGHT_KEY; }
+\[[^\]]*\]   { return Token::BRACKET_IDENT}
+\/\*([^(\*\/)]|\*)*\*\/  {return Token::COMMENTBLOCK}
 [ \t\n\r]+   { /* Ignorar el token (espacio en blanco) */ }
 \/\/[^\n]* { /* Ignorar el token (Comentario)*/ }
 <<EOF>>      { return Token::END_OF_FILE; }

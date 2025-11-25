@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     else if(modo=="parser"){
     Parser parser(lexer,tok);
     parser.Parse();
-    std::cout<<"Fin Parser;";
+    std::cout<<"Fin Parser\n";
     }else{
         std::cerr<<"MODO INVALIDO!\nPor favor ingrese: lexer | parser\n";
     }
